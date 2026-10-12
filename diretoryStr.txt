@@ -1,0 +1,14 @@
+
+
+Employee-Attendance-Automation-System/
+├── app/
+│   └── main.py             # Single entrypoint containing all FastAPI routes, schemas, models & logic
+├── sample_data/            # Provided Extended JSON sample datasets
+├── sample_seed.py          # Provided script to load sample data into MongoDB
+├── DATA_MODEL.md           # Reference data model details
+├── DECISIONS.md            # Answers to the 5 design & architecture questions
+├── PROBLEM_STATEMENT.docx  # Original problem statement document
+├── openapi.yaml            # OpenAPI definition & business rules specification
+├── README.md               # Quickstart instructions, execution details & missing items list
+├── REVIEW.md              # Detailed code review findings & defect fixes for Part A
+└── requirements.txt        # Dependencies (FastAPI, PyMongo/Motor, Uvicorn, Pydantic, etc.)
