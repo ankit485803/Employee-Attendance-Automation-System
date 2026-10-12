@@ -17,6 +17,8 @@ Employee-Attendance-Automation-System/
 
 
 
+
+#this is main logic files 
 app/
 ├── database.py     # MongoDB connection & startup index creation
 ├── main.py         # App initialization & router includes (~35 lines)
