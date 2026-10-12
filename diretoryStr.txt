@@ -14,3 +14,17 @@ Employee-Attendance-Automation-System/
 ├── README.md               # Quickstart instructions, execution details & missing items list
 ├── REVIEW.md              # Detailed code review findings & defect fixes for Part A
 └── requirements.txt        # Dependencies (FastAPI, PyMongo/Motor, Uvicorn, Pydantic, etc.)
+
+
+
+app/
+├── database.py     # MongoDB connection & startup index creation
+├── main.py         # App initialization & router includes (~35 lines)
+├── pipelines.py    # Analytics aggregation pipelines (employee, dept, leaderboard, trend)
+├── rules.py        # Core business calculations (R1-R10) & IST time helpers
+├── schemas.py      # Pydantic request models & input validation
+└── routes/
+    ├── admin.py       # GET /admin/explain/{endpoint}
+    ├── analytics.py   # All 4 GET /analytics/... endpoints
+    ├── attendance.py  # Punch-in, Punch-out, Regularize PATCH, List Attendance
+    └── employees.py   # POST /employees, GET /employees, GET /health
