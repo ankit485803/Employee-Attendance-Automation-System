@@ -10,6 +10,11 @@ A production-grade, asynchronous FastAPI backend service integrated with MongoDB
 * **Server:** Uvicorn ASGI Server
 
 ---
+## Architecture
+
+![System Architecture](docs/architecture-diagram.png)
+
+---
 
 ## Quickstart & Running Locally
 
