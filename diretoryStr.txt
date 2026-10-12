@@ -3,6 +3,8 @@
 Employee-Attendance-Automation-System/
 ├── app/
 │   └── main.py             # Single entrypoint containing all FastAPI routes, schemas, models & logic
+│   └── rules.py            
+
 ├── sample_data/            # Provided Extended JSON sample datasets
 ├── sample_seed.py          # Provided script to load sample data into MongoDB
 ├── DATA_MODEL.md           # Reference data model details
