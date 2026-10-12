@@ -215,10 +215,10 @@ def build_late_leaderboard_pipeline(month: str, limit: int = 10, department: Opt
     ])
     return pipeline
 
-
 def build_department_trend_pipeline(department: str, from_date: str, to_date: str) -> List[Dict[str, Any]]:
+    # Convert string ISO dates to datetime objects for $densify bounds
     dt_from = datetime.fromisoformat(from_date)
-    dt_to = datetime.fromisoformat(to_date)
+    dt_to = datetime.fromisoformat(to_date) + timedelta(days=1)
 
     return [
         {"$match": {"department": department}},
@@ -280,15 +280,44 @@ def build_department_trend_pipeline(department: str, from_date: str, to_date: st
             }
         },
         {"$match": {"_id": {"$ne": None}}},
-        {"$project": {"_id": 0, "date": "$_id", "present_count": 1, "late_count": 1}},
+        # Convert string date to BSON Date object for $densify
+        {
+            "$project": {
+                "_id": 0,
+                "date_obj": {
+                    "$dateFromString": {
+                        "dateString": "$_id",
+                        "format": "%Y-%m-%d",
+                        "timezone": "Asia/Kolkata"
+                    }
+                },
+                "present_count": 1,
+                "late_count": 1,
+            }
+        },
+        # Gap filling using $densify on date_obj
         {
             "$densify": {
-                "field": "date",
+                "field": "date_obj",
                 "range": {
                     "step": 1,
                     "unit": "day",
-                    "bounds": [dt_from, dt_to + timedelta(days=1)],
+                    "bounds": [dt_from, dt_to],
                 },
+            }
+        },
+        # Convert date_obj back to YYYY-MM-DD string using correct 'date' parameter
+        {
+            "$project": {
+                "date": {
+                    "$dateToString": {
+                        "date": "$date_obj",
+                        "format": "%Y-%m-%d",
+                        "timezone": "Asia/Kolkata"
+                    }
+                },
+                "present_count": {"$ifNull": ["$present_count", 0.0]},
+                "late_count": {"$ifNull": ["$late_count", 0]},
             }
         },
         {"$sort": {"date": 1}},
@@ -311,8 +340,8 @@ def build_department_trend_pipeline(department: str, from_date: str, to_date: st
         {
             "$project": {
                 "date": 1,
-                "present_count": {"$ifNull": ["$present_count", 0.0]},
-                "late_count": {"$ifNull": ["$late_count", 0]},
+                "present_count": 1,
+                "late_count": 1,
                 "headcount": {"$ifNull": [{"$arrayElemAt": ["$hc_doc.headcount", 0]}, 0]},
                 "day_of_week": {
                     "$dayOfWeek": {
