@@ -16,6 +16,36 @@ A production-grade, asynchronous FastAPI backend service integrated with MongoDB
 
 ---
 
+
+## Project Directory Structure
+
+```text
+Employee-Attendance-Automation-System/
+├── app/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── database.py
+│   ├── rules.py
+│   ├── schemas.py
+│   ├── pipelines.py
+│   └── routes/
+│       ├── __init__.py
+│       ├── employees.py
+│       ├── attendance.py
+│       ├── analytics.py
+│       └── admin.py
+├── sample_data/
+├── REVIEW.md
+├── DECISIONS.md
+├── README.md
+├── PROBLEM_STATEMENT.docx
+├── requirements.txt
+├── DATA_MODEL.md
+├── openapi.yaml
+└── sample_seed.py
+```
+
+
 ## Quickstart & Running Locally
 
 ### 1. Prerequisites
